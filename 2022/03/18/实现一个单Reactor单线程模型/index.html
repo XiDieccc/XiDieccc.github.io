@@ -6,14 +6,21 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>Archives: 2022 | XiDieccc</title>
+  <title>实现一个单Reactor单线程模型 | XiDieccc</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="XiDieccc">
-<meta property="og:url" content="http://example.com/archives/2022/page/2/index.html">
+  <meta name="description" content="参考资料（推荐指数 :star: :star: :star: :star: :star: 递减）：  面试官：什么是 Reactor 和 Proactor？_小林coding的博客-CSDN博客_proactor IO 多路转接（复用）之 epoll | 爱编程的大丙 (subingwen.cn) 黑马程序员-Linux网络编程_哔哩哔哩_bilibili …  反应堆 Reactor让服务器实现">
+<meta property="og:type" content="article">
+<meta property="og:title" content="实现一个单Reactor单线程模型">
+<meta property="og:url" content="http://example.com/2022/03/18/%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E5%8D%95Reactor%E5%8D%95%E7%BA%BF%E7%A8%8B%E6%A8%A1%E5%9E%8B/index.html">
 <meta property="og:site_name" content="XiDieccc">
+<meta property="og:description" content="参考资料（推荐指数 :star: :star: :star: :star: :star: 递减）：  面试官：什么是 Reactor 和 Proactor？_小林coding的博客-CSDN博客_proactor IO 多路转接（复用）之 epoll | 爱编程的大丙 (subingwen.cn) 黑马程序员-Linux网络编程_哔哩哔哩_bilibili …  反应堆 Reactor让服务器实现">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-03-18T15:32:43.000Z">
+<meta property="article:modified_time" content="2022-03-18T16:15:58.185Z">
 <meta property="article:author" content="XiDieccc">
+<meta property="article:tag" content="Linux编程">
+<meta property="article:tag" content="网络通信">
+<meta property="article:tag" content="Cpp">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/atom.xml" title="XiDieccc" type="application/atom+xml">
@@ -152,52 +159,282 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-实现一个单Reactor单线程模型" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2022" class="archive-year">2022</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2022/01/10/hello-world/" class="archive-article-date">
-  	<time datetime="2022-01-10T03:45:52.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-01-10</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2022/01/10/hello-world/">Hello World</a>
+    <h1 class="article-title" itemprop="name">
+      实现一个单Reactor单线程模型
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
+        
+        <a href="/2022/03/18/%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E5%8D%95Reactor%E5%8D%95%E7%BA%BF%E7%A8%8B%E6%A8%A1%E5%9E%8B/" class="archive-article-date">
+  	<time datetime="2022-03-18T15:32:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-18</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>参考资料（推荐指数 :star: :star: :star: :star: :star: 递减）：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_34827674/article/details/116175772?ops_request_misc=%7B%22request_id%22:%22164761211016780274158251%22,%22scm%22:%2220140713.130102334.pc_blog.%22%7D&request_id=164761211016780274158251&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~blog~first_rank_ecpm_v1~rank_v31_ecpm-1-116175772.nonecase&utm_term=reactor&spm=1018.2226.3001.4450">面试官：什么是 Reactor 和 Proactor？_小林coding的博客-CSDN博客_proactor</a></li>
+<li><a target="_blank" rel="noopener" href="https://subingwen.cn/linux/epoll/">IO 多路转接（复用）之 epoll | 爱编程的大丙 (subingwen.cn)</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1iJ411S7UA">黑马程序员-Linux网络编程_哔哩哔哩_bilibili</a></li>
+<li>…</li>
+</ul>
+<h1 id="反应堆-Reactor"><a href="#反应堆-Reactor" class="headerlink" title="反应堆 Reactor"></a>反应堆 Reactor</h1><p>让服务器实现服务多客户端，最简易直接方法:point_down:</p>
+<ul>
+<li>为每一条连接创建一个<strong>进程</strong></li>
+</ul>
+<p>我们用线程来优化，线程更为轻量，且切换成本更低，于是:point_down:</p>
+<ul>
+<li>为每一条连接创建一个<strong>线程</strong></li>
+</ul>
+<p>这样做有以下缺点：频繁创建和销毁线程、无法实现百万级别的并发连接，于是:point_down:</p>
+<ul>
+<li>创建<strong>线程池</strong>，线程池中维护着多个线程，每个线程可以处理多条连接的业务</li>
+</ul>
+<p>这样就会出现新的问题，<strong>线程阻塞</strong>，socket默认是阻塞的，<code>accept()</code> 、<code>read()</code>、<code>write()</code> 都有可能出现阻塞的情况，于是:point_down:</p>
+<ul>
+<li>设置 socket 为 <strong>非阻塞</strong></li>
+</ul>
+<p>新问题：由于不知道读缓冲区有多少内容，我们需要 <strong>轮询</strong> 调用 <code>read()</code> 来判断是否读完，其问题关键是线程不知道该连接socket是否准备就绪，是否有数据可读，于是:point_down:</p>
+<ul>
+<li><strong>I/O多路复用</strong> 例如 <code>select</code> 、<code>poll</code>、<code>epoll</code> </li>
+</ul>
+<p>然后总会有新的问题，这三个接口都是以面向过程的思想，先监听，后处理，代码中若没有封装，其实很繁琐，于是:point_down: :triangular_flag_on_post:</p>
+<ul>
+<li><strong>Reactor 反应堆</strong> </li>
+</ul>
+<br>
 
+<p>反应堆是基于面向对象的思想，对I/O多路复用做了一层封装，也叫 <code>Dispatcher</code> 模式，监听事件并收到事件后，根据事件类型分配给某个进程或线程来处理。</p>
+<h2 id="单Reactor单线程"><a href="#单Reactor单线程" class="headerlink" title="单Reactor单线程"></a>单Reactor单线程</h2><ul>
+<li>不需要考虑进程间通信，也不用担心多进程竞争</li>
+<li>第一个缺点，因为只有一个进程，<strong>无法充分利用 多核 CPU 的性能</strong></li>
+<li>第二个缺点，Handler 对象在业务处理时，整个进程是无法处理其他连接的事件的，<strong>如果业务处理耗时比较长，那么就造成响应的延迟</strong></li>
+<li> Reactor 单进程的方案<strong>不适用计算机密集型的场景，只适用于业务处理非常快速的场景</strong></li>
+</ul>
+<p><code>Redis</code> 是由 C 语言实现的，它采用的正是「单 Reactor 单进程」的方案，因为 <code>Redis</code> 业务处理主要是在内存中完成，操作的速度是很快的，性能瓶颈不在 CPU 上，所以 <code>Redis </code>对于命令的处理是单进程的方案。</p>
+<h2 id="单Reactor多线程"><a href="#单Reactor多线程" class="headerlink" title="单Reactor多线程"></a>单Reactor多线程</h2><ul>
+<li><p>线程互斥问题，临界区资源访问</p>
+<p>要避免多线程由于竞争共享资源而导致数据错乱的问题，就需要在操作共享资源前加上互斥锁，以保证任意时间里只有一个线程在操作共享资源，待该线程操作完释放互斥锁后，其他线程才有机会操作共享数据。</p>
+</li>
+<li><p>vs 单 Reactor 多进程</p>
+<ul>
+<li>事实上，单 Reactor 多进程相比单 Reactor 多线程实现起来很麻烦，主要因为要考虑子进程 &lt;-&gt; 父进程的双向通信，并且父进程还得知道子进程要将数据发送给哪个客户端。</li>
+<li>而多线程间可以共享数据，虽然要额外考虑并发问题，但是这远比进程间通信的复杂度低得多，因此实际应用中也看不到单 Reactor 多进程的模式。</li>
+</ul>
+</li>
+<li><p>「单 Reactor」的模式还有个问题，<strong>因为一个 Reactor 对象承担所有事件的监听和响应，而且只在主线程中运行，在面对瞬间高并发的场景时，容易成为性能的瓶颈的地方</strong></p>
+</li>
+</ul>
+<h2 id="Proactor"><a href="#Proactor" class="headerlink" title="Proactor"></a><code>Proactor</code></h2><ul>
+<li><strong>Reactor 可以理解为「来了事件操作系统通知应用进程，让应用进程来处理」</strong>，而 <strong>Proactor 可以理解为「来了事件操作系统来处理，处理完再通知应用进程」</strong></li>
+<li>无论是 Reactor，还是 Proactor，都是一种基于「事件分发」的网络编程模式，区别在于 <strong>Reactor 模式是基于「待完成」的 I/O 事件，而 Proactor 模式则是基于「已完成」的 I/O 事件</strong></li>
+</ul>
+<p>举个例子 :shower:</p>
+<ul>
+<li><p>阻塞 I/O 好比: 去菜鸟驿站等快递，一直等到快递到达，然后自己拿快递回家。</p>
+</li>
+<li><p>非阻塞 I/O 好比：去菜鸟驿站发现快递没到，先离开，等快递到达菜鸟驿站通知你去拿，然后自己去拿快递回家。</p>
+</li>
+<li><p>异步 I/O 好比：你把地址发给菜鸟驿站，快递到达后，快递小哥直接送到你家。</p>
+</li>
+<li><p>Reactor 模式就是菜鸟驿站打电话告诉你快递到了，你需要自己去菜鸟驿站取快递。而在 Proactor 模式下，快递员直接将快递送到你家门口，然后通知你</p>
+</li>
+</ul>
+<h1 id="epoll-实现单Reactor单线程反应堆模式"><a href="#epoll-实现单Reactor单线程反应堆模式" class="headerlink" title="epoll 实现单Reactor单线程反应堆模式"></a><code>epoll</code> 实现单Reactor单线程反应堆模式</h1><h2 id="epoll-相关结构体以及操作函数"><a href="#epoll-相关结构体以及操作函数" class="headerlink" title="epoll 相关结构体以及操作函数"></a><code>epoll</code> 相关结构体以及操作函数</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 联合体, 多个变量共用同一块内存        </span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">union</span> <span class="title">epoll_data</span> &#123;</span></span><br><span class="line"> 	<span class="keyword">void</span>        *ptr;</span><br><span class="line">	<span class="keyword">int</span>          fd;	<span class="comment">// 通常情况下使用这个成员, 和epoll_ctl() 的第三个参数相同即可</span></span><br><span class="line">	<span class="keyword">uint32_t</span>     u32;</span><br><span class="line">	<span class="keyword">uint64_t</span>     u64;</span><br><span class="line">&#125; <span class="keyword">epoll_data_t</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">epoll_event</span> &#123;</span></span><br><span class="line">	<span class="keyword">uint32_t</span>     events;      <span class="comment">/* Epoll events */</span></span><br><span class="line">	<span class="keyword">epoll_data_t</span> data;        <span class="comment">/* User data variable */</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 创建epoll实例，通过一棵红黑树管理待检测集合</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">epoll_create</span><span class="params">(<span class="keyword">int</span> size)</span></span>;</span><br><span class="line"><span class="comment">// 管理红黑树上的文件描述符(添加、修改、删除)</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">epoll_ctl</span><span class="params">(<span class="keyword">int</span> epfd, <span class="keyword">int</span> op, <span class="keyword">int</span> fd, struct epoll_event *event)</span></span>;</span><br><span class="line"><span class="comment">// 检测epoll树中是否有就绪的文件描述符</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">epoll_wait</span><span class="params">(<span class="keyword">int</span> epfd, struct epoll_event * events, <span class="keyword">int</span> maxevents, <span class="keyword">int</span> timeout)</span></span>;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="epoll-反应堆实现"><a href="#epoll-反应堆实现" class="headerlink" title="epoll 反应堆实现"></a><code>epoll</code> 反应堆实现</h2><p>在联合体 <code>union epoll_data</code> 中，最常用的是 <code>int fd</code> ，即为待检测的文件描述符，但是可以用 <code>void *ptr</code> 来转换封装自定义的数据，比如：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">evt</span>&#123;</span></span><br><span class="line">	<span class="keyword">int</span> fd;				<span class="comment">//文件描述符</span></span><br><span class="line">	<span class="built_in"><span class="keyword">void</span></span>(*func)(<span class="keyword">int</span> a);	<span class="comment">//操作函数，回调函数</span></span><br><span class="line">&#125;*ptr;</span><br></pre></td></tr></table></figure>
+
+<p>那么可以用 <code>void *ptr</code> 来自动回调该文件描述符下的操作函数</p>
+<p><code>epoll</code> 反应堆模型就是基于此：</p>
+<p>​    <strong><code>epoll</code> ET 模式 + 非阻塞和轮询 + <code>void *ptr</code> 的回调函数</strong></p>
+<ul>
+<li><code>epoll</code> 最基本的操作流程</li>
+</ul>
+<p>为了便于分析，用伪代码表述：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1.创建红黑树实例</span></span><br><span class="line"><span class="built_in">epoll_create</span>();</span><br><span class="line"><span class="comment">// 2.添加监听的节点</span></span><br><span class="line"><span class="built_in">epoll_ctl</span>(EPOLL_CTL_ADD);</span><br><span class="line"><span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 3.监听并返回epoll_event数组</span></span><br><span class="line">	<span class="built_in">epoll_wait</span>();</span><br><span class="line">    <span class="comment">// 4.判断是否是监听socket，若是则accept()创建通信socket</span></span><br><span class="line">    <span class="keyword">if</span>(is listenfd)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> clientfd = <span class="built_in">accept</span>();</span><br><span class="line">        <span class="built_in">epoll_ctl</span>(EPOLL_CTL_ADD);	<span class="comment">// 将通信socket添加到树上监听</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 5.若是通信socket，则进行read()或write()相应操作</span></span><br><span class="line">    <span class="keyword">if</span>(isnot listenfd)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">read</span>();</span><br><span class="line">        <span class="built_in">write</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li><code>epoll</code> 反应堆流程</li>
+</ul>
+<p>以下是伪代码：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1.创建红黑树实例</span></span><br><span class="line"><span class="built_in">epoll_create</span>();</span><br><span class="line"><span class="comment">// 2.添加监听的节点</span></span><br><span class="line"><span class="built_in">epoll_ctl</span>(EPOLL_CTL_ADD);</span><br><span class="line"><span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 3.监听并返回epoll_event数组</span></span><br><span class="line">	<span class="built_in">epoll_wait</span>();</span><br><span class="line">    <span class="comment">// 4.判断是否是监听socket，若是则accept()创建通信socket</span></span><br><span class="line">    <span class="keyword">if</span>(is listenfd)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> clientfd = <span class="built_in">accept</span>();</span><br><span class="line">        <span class="built_in">epoll_ctl</span>(EPOLL_CTL_ADD);	<span class="comment">// 将通信socket添加到树上监听</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 5.若是通信socket，则进行read()或write()相应操作</span></span><br><span class="line">    <span class="keyword">if</span>(isnot listenfd)</span><br><span class="line">    &#123;</span><br><span class="line"><span class="comment">//!!!!!!!!!!!!!!!!!   diff   !!!!!!!!!!!!!!!!!!!   </span></span><br><span class="line">        <span class="keyword">if</span>(read &amp;&amp; EPOLLIN)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">read</span>();</span><br><span class="line">        	<span class="comment">// 将该 clientfd 从监听树上删除，再更改监听 clientfd的写缓冲区，挂载到监听树上</span></span><br><span class="line">        	<span class="built_in">epoll_ctl</span>(EPOLL_CTL_DEL);</span><br><span class="line">        	set <span class="class"><span class="keyword">struct</span> <span class="title">epoll_event</span>.<span class="title">events</span> <span class="title">to</span> <span class="title">EPOLLOUT</span>;</span></span><br><span class="line">        	add callback func to epoll_event.data.*ptr;</span><br><span class="line">        	<span class="built_in">epoll_ctl</span>(EPOLL_CTL_ADD);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(write &amp;&amp; EPOLLOUT)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">write</span>();</span><br><span class="line">        	<span class="comment">// 是可写的，且已写，则将该 clientfd 从监听树上删除，再更改监听 clientfd的读缓冲区，挂载到监听树上</span></span><br><span class="line">        	<span class="built_in">epoll_ctl</span>(EPOLL_CTL_DEL);</span><br><span class="line">        	set <span class="class"><span class="keyword">struct</span> <span class="title">epoll_event</span>.<span class="title">events</span> <span class="title">to</span> <span class="title">EPOLLIN</span>;</span></span><br><span class="line">        	add callback func to epoll_event.data.*ptr;</span><br><span class="line">        	<span class="built_in">epoll_ctl</span>(EPOLL_CTL_ADD);</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>该流程的不同之处在于，反应堆不但要监听通信socket <code>clientfd</code> 的读缓冲区，还要监听它的写缓冲区</p>
+<h2 id="epoll-单Reactor单线程源码："><a href="#epoll-单Reactor单线程源码：" class="headerlink" title="epoll 单Reactor单线程源码："></a><code>epoll</code> 单Reactor单线程源码：</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> *epoll基于非阻塞I/O事件驱动</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/socket.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/epoll.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;arpa/inet.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;fcntl.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;errno.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;time.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MAX_EVENTS 1024 <span class="comment">//监听上限数</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> BUFLEN 4096</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SERV_PORT 8080</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">recvdata</span><span class="params">(<span class="keyword">int</span> fd, <span class="keyword">int</span> events, <span class="keyword">void</span> *arg)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">senddata</span><span class="params">(<span class="keyword">int</span> fd, <span class="keyword">int</span> events, <span class="keyword">void</span> *arg)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 描述就绪文件描述符相关信息 */</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">myevent_s</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">int</span> fd; <span class="comment">//要监听的文件描述符</span></span><br><span class="line">    <span class="comment">// todo struct epoll_event epv里面已经有events了，这个是否重复？？？</span></span><br><span class="line">    <span class="comment">//! 详情见代码尾部 红色注释</span></span><br><span class="line">    <span class="keyword">int</span> events;                                       <span class="comment">//对应的监听事件</span></span><br><span class="line">    <span class="keyword">void</span> *arg;                                        <span class="comment">//泛型参数</span></span><br><span class="line">    <span class="keyword">void</span> (*call_back)(<span class="keyword">int</span> fd, <span class="keyword">int</span> events, <span class="keyword">void</span> *arg); <span class="comment">//回调函数</span></span><br><span class="line">    <span class="keyword">int</span> status;                                       <span class="comment">//是否在监听:1-&gt;在红黑树上(监听), 0-&gt;不在(不监听)</span></span><br><span class="line">    <span class="keyword">char</span> buf[BUFLEN];</span><br><span class="line">    <span class="keyword">int</span> len;</span><br><span class="line">    <span class="keyword">long</span> last_active; <span class="comment">//记录每次加入红黑树 g_efd 的时间值</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> g_efd;                                 <span class="comment">//全局变量, 保存epoll_create返回的文件描述符</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">myevent_s</span> <span class="title">g_events</span>[<span class="title">MAX_EVENTS</span> + 1];</span> <span class="comment">//自定义结构体类型数组. +1--&gt;listen fd</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*将结构体 myevent_s 成员变量 初始化*/</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">eventset</span><span class="params">(struct myevent_s *ev, <span class="keyword">int</span> fd, <span class="keyword">void</span> (*call_back)(<span class="keyword">int</span>, <span class="keyword">int</span>, <span class="keyword">void</span> *), <span class="keyword">void</span> *arg)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ev-&gt;fd = fd;</span><br><span class="line">    ev-&gt;call_back = call_back;</span><br><span class="line">    ev-&gt;events = <span class="number">0</span>;</span><br><span class="line">    ev-&gt;arg = arg;</span><br><span class="line">    ev-&gt;status = <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">memset</span>(ev-&gt;buf, <span class="number">0</span>, <span class="keyword">sizeof</span>(ev-&gt;buf));</span><br><span class="line">    ev-&gt;len = <span class="number">0</span>;</span><br><span class="line">    ev-&gt;last_active = time(<span class="literal">NULL</span>); <span class="comment">//调用eventset函数的时间</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 向 epoll监听的红黑树 添加一个 文件描述符 */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// eventadd(efd, EPOLLIN, &amp;g_events[MAX_EVENTS]);</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">eventadd</span><span class="params">(<span class="keyword">int</span> efd, <span class="keyword">int</span> events, struct myevent_s *ev)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">epoll_event</span> <span class="title">epv</span> =</span> &#123;<span class="number">0</span>, &#123;<span class="number">0</span>&#125;&#125;;</span><br><span class="line">    <span class="keyword">int</span> op;</span><br><span class="line">    epv.data.ptr = ev;</span><br><span class="line">    epv.events = ev-&gt;events = events; <span class="comment">// EPOLLIN 或 EPOLLOUT</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (ev-&gt;status == <span class="number">0</span>)</span><br><span class="line">    &#123;                       <span class="comment">//! 调用本函数则需要该 事件对应的cfd 在红黑树 g_efd上</span></span><br><span class="line">        op = EPOLL_CTL_ADD; <span class="comment">//将其加入红黑树 g_efd, 并将status置1</span></span><br><span class="line">        ev-&gt;status = <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (epoll_ctl(efd, op, ev-&gt;fd, &amp;epv) &lt; <span class="number">0</span>) <span class="comment">//实际添加/修改</span></span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;event add failed [fd=%d], events[%d]\n&quot;</span>, ev-&gt;fd, events);</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;event add OK [fd=%d], op=%d, events[%0X]\n&quot;</span>, ev-&gt;fd, op, events);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 从epoll 监听的 红黑树中删除一个 文件描述符*/</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">eventdel</span><span class="params">(<span class="keyword">int</span> efd, struct myevent_s *ev)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">epoll_event</span> <span class="title">epv</span> =</span> &#123;<span class="number">0</span>, &#123;<span class="number">0</span>&#125;&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (ev-&gt;status != <span class="number">1</span>) <span class="comment">//不在红黑树上</span></span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// epv.data.ptr = ev;</span></span><br><span class="line">    epv.data.ptr = <span class="literal">NULL</span>;</span><br><span class="line">    ev-&gt;status = <span class="number">0</span>;                              <span class="comment">//修改状态</span></span><br><span class="line">    epoll_ctl(efd, EPOLL_CTL_DEL, ev-&gt;fd, &amp;epv); <span class="comment">//从红黑树 efd 上将 ev-&gt;fd 摘除</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*  当有文件描述符就绪, epoll返回, 调用该函数 与客户端建立链接 */</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">acceptconn</span><span class="params">(<span class="keyword">int</span> lfd, <span class="keyword">int</span> events, <span class="keyword">void</span> *arg)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span> <span class="title">cin</span>;</span></span><br><span class="line">    <span class="keyword">socklen_t</span> len = <span class="keyword">sizeof</span>(<span class="built_in">cin</span>);</span><br><span class="line">    <span class="keyword">int</span> cfd, i;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> ((cfd = accept(lfd, (struct sockaddr *)&amp;<span class="built_in">cin</span>, &amp;len)) == <span class="number">-1</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (errno != EAGAIN &amp;&amp; errno != EINTR)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">/* 暂时不做出错处理 */</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//! __func__ 宏，表示当前函数名</span></span><br><span class="line">        <span class="comment">//! __LINE__ 宏，表示当前在第几行</span></span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%s: accept, %s\n&quot;</span>, __func__, strerror(errno));</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">do</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; MAX_EVENTS; i++) <span class="comment">//从全局数组g_events中找一个空闲元素</span></span><br><span class="line">            <span class="keyword">if</span> (g_events[i].status == <span class="number">0</span>) <span class="comment">//类似于select中找值为-1的元素</span></span><br><span class="line">                <span class="keyword">break</span>;                   <span class="comment">//跳出 for</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (i == MAX_EVENTS)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;%s: max connect limit[%d]\n&quot;</span>, __func__, MAX_EVENTS);</span><br><span class="line">            <span class="keyword">break</span>; <span class="comment">//跳出do while(0) 不执行后续代码</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// int flag = fcntl(cfd, F_GETFL);</span></span><br><span class="line">        <span class="comment">// flag = flag | O_NONBLOCK;</span></span><br><span class="line">        <span class="comment">// fcntl(cfd, F_SETFL, flag);</span></span><br><span class="line">        <span class="comment">//! 依然还是简易方法</span></span><br><span class="line">        <span class="keyword">int</span> flag = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">if</span> ((flag = fcntl(cfd, F_SETFL, O_NONBLOCK)) &lt; <span class="number">0</span>)</span><br><span class="line">        &#123; <span class="comment">//将cfd也设置为非阻塞</span></span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;%s: fcntl nonblocking failed, %s\n&quot;</span>, __func__, strerror(errno));</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/* 给cfd设置一个 myevent_s 结构体, 回调函数 设置为 recvdata */</span></span><br><span class="line">        <span class="comment">//! 给 cfd 设置事件，添加到树上监听</span></span><br><span class="line">        eventset(&amp;g_events[i], cfd, recvdata, &amp;g_events[i]);</span><br><span class="line">        eventadd(g_efd, EPOLLIN, &amp;g_events[i]); <span class="comment">//将cfd添加到红黑树g_efd中,监听读事件</span></span><br><span class="line"></span><br><span class="line">    &#125; <span class="keyword">while</span> (<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;new connect [%s:%d][time:%ld], pos[%d]\n&quot;</span>,</span><br><span class="line">           inet_ntoa(<span class="built_in">cin</span>.sin_addr), ntohs(<span class="built_in">cin</span>.sin_port), g_events[i].last_active, i);</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">recvdata</span><span class="params">(<span class="keyword">int</span> fd, <span class="keyword">int</span> events, <span class="keyword">void</span> *arg)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">myevent_s</span> *<span class="title">ev</span> =</span> (struct myevent_s *)arg;</span><br><span class="line">    <span class="keyword">int</span> len;</span><br><span class="line"></span><br><span class="line">    len = recv(fd, ev-&gt;buf, <span class="keyword">sizeof</span>(ev-&gt;buf), <span class="number">0</span>); <span class="comment">//读文件描述符, 数据存入myevent_s成员buf中</span></span><br><span class="line"></span><br><span class="line">    eventdel(g_efd, ev); <span class="comment">//将该节点从红黑树上摘除</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (len &gt; <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">        ev-&gt;len = len;</span><br><span class="line">        ev-&gt;buf[len] = <span class="string">&#x27;\0&#x27;</span>; <span class="comment">//手动添加字符串结束标记</span></span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;C[%d]:%s\n&quot;</span>, fd, ev-&gt;buf);</span><br><span class="line"></span><br><span class="line">        eventset(ev, fd, senddata, ev); <span class="comment">//设置该 fd 对应的回调函数为 senddata</span></span><br><span class="line">        eventadd(g_efd, EPOLLOUT, ev);  <span class="comment">//将fd加入红黑树g_efd中,监听其写事件</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (len == <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//! 上面已经从红黑树中去除监听了</span></span><br><span class="line">        close(ev-&gt;fd);</span><br><span class="line">        <span class="comment">/* ev-g_events 地址相减得到偏移元素位置 */</span></span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;[fd=%d] pos[%ld], closed\n&quot;</span>, fd, ev - g_events);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        close(ev-&gt;fd);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;recv[fd=%d] error[%d]:%s\n&quot;</span>, fd, errno, strerror(errno));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">senddata</span><span class="params">(<span class="keyword">int</span> fd, <span class="keyword">int</span> events, <span class="keyword">void</span> *arg)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">myevent_s</span> *<span class="title">ev</span> =</span> (struct myevent_s *)arg;</span><br><span class="line">    <span class="keyword">int</span> len;</span><br><span class="line"></span><br><span class="line">    len = send(fd, ev-&gt;buf, ev-&gt;len, <span class="number">0</span>); <span class="comment">//直接将数据 回写给客户端。未作处理</span></span><br><span class="line"></span><br><span class="line">    eventdel(g_efd, ev); <span class="comment">//从红黑树g_efd中移除</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (len &gt; <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;send[fd=%d], [%d]%s\n&quot;</span>, fd, len, ev-&gt;buf);</span><br><span class="line">        eventset(ev, fd, recvdata, ev); <span class="comment">//将该fd的 回调函数改为 recvdata</span></span><br><span class="line">        eventadd(g_efd, EPOLLIN, ev);   <span class="comment">//从新添加到红黑树上， 设为监听读事件</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        close(ev-&gt;fd); <span class="comment">//关闭链接</span></span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;send[fd=%d] error %s\n&quot;</span>, fd, strerror(errno));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*创建 socket, 初始化lfd */</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">initlistensocket</span><span class="params">(<span class="keyword">int</span> efd, <span class="keyword">short</span> port)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span> <span class="title">sin</span>;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> lfd = socket(AF_INET, SOCK_STREAM, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// int flag = fcntl(lfd, F_GETFL);</span></span><br><span class="line">    <span class="comment">// flag = flag | O_NONBLOCK;</span></span><br><span class="line">    <span class="comment">// fcntl(lfd, F_SETFL, flag);</span></span><br><span class="line">    <span class="comment">//! 简易写法</span></span><br><span class="line">    fcntl(lfd, F_SETFL, O_NONBLOCK); <span class="comment">//将socket设为非阻塞</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">memset</span>(&amp;<span class="built_in">sin</span>, <span class="number">0</span>, <span class="keyword">sizeof</span>(<span class="built_in">sin</span>)); <span class="comment">// bzero(&amp;sin, sizeof(sin))</span></span><br><span class="line">    <span class="built_in">sin</span>.sin_family = AF_INET;</span><br><span class="line">    <span class="built_in">sin</span>.sin_addr.s_addr = INADDR_ANY;</span><br><span class="line">    <span class="built_in">sin</span>.sin_port = htons(port);</span><br><span class="line"></span><br><span class="line">    bind(lfd, (struct sockaddr *)&amp;<span class="built_in">sin</span>, <span class="keyword">sizeof</span>(<span class="built_in">sin</span>));</span><br><span class="line"></span><br><span class="line">    listen(lfd, <span class="number">20</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* void eventset(struct myevent_s *ev, int fd, void (*call_back)(int, int, void *), void *arg);  */</span></span><br><span class="line">    <span class="comment">//! 将 lfd 放在了数组最后一位</span></span><br><span class="line">    eventset(&amp;g_events[MAX_EVENTS], lfd, acceptconn, &amp;g_events[MAX_EVENTS]);</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* void eventadd(int efd, int events, struct myevent_s *ev) */</span></span><br><span class="line">    eventadd(efd, EPOLLIN, &amp;g_events[MAX_EVENTS]);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">short</span> port = SERV_PORT;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (argc == <span class="number">2</span>)</span><br><span class="line">        port = atoi(argv[<span class="number">1</span>]); <span class="comment">//使用用户指定端口.如未指定,用默认端口</span></span><br><span class="line"></span><br><span class="line">    g_efd = epoll_create(MAX_EVENTS + <span class="number">1</span>); <span class="comment">//创建红黑树,返回给全局 g_efd</span></span><br><span class="line">    <span class="keyword">if</span> (g_efd &lt;= <span class="number">0</span>)</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;create efd in %s err %s\n&quot;</span>, __func__, strerror(errno));</span><br><span class="line"></span><br><span class="line">    initlistensocket(g_efd, port); <span class="comment">//初始化监听socket</span></span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">epoll_event</span> <span class="title">events</span>[<span class="title">MAX_EVENTS</span> + 1];</span> <span class="comment">//保存已经满足就绪事件的文件描述符数组</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;server running:port[%d]\n&quot;</span>, port);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> checkpos = <span class="number">0</span>, i;</span><br><span class="line">    <span class="keyword">while</span> (<span class="number">1</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">/* 超时验证，每次测试100个链接，不测试listenfd 当客户端60秒内没有和服务器通信，则关闭此客户端链接 */</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">long</span> now = time(<span class="literal">NULL</span>); <span class="comment">//当前时间</span></span><br><span class="line">        <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; <span class="number">100</span>; i++, checkpos++)</span><br><span class="line">        &#123; <span class="comment">//一次循环检测100个。 使用checkpos控制检测对象</span></span><br><span class="line">            <span class="keyword">if</span> (checkpos == MAX_EVENTS)</span><br><span class="line">                checkpos = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">if</span> (g_events[checkpos].status != <span class="number">1</span>) <span class="comment">//不在红黑树 g_efd 上</span></span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">long</span> duration = now - g_events[checkpos].last_active; <span class="comment">//客户端不活跃的世间</span></span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (duration &gt;= <span class="number">60</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                close(g_events[checkpos].fd); <span class="comment">//关闭与该客户端链接</span></span><br><span class="line">                <span class="built_in">printf</span>(<span class="string">&quot;[fd=%d] timeout\n&quot;</span>, g_events[checkpos].fd);</span><br><span class="line">                eventdel(g_efd, &amp;g_events[checkpos]); <span class="comment">//将该客户端 从红黑树 g_efd移除</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/*监听红黑树g_efd, 将满足的事件的文件描述符加至events数组中, 1秒没有事件满足, 返回 0*/</span></span><br><span class="line">        <span class="keyword">int</span> nfd = epoll_wait(g_efd, events, MAX_EVENTS + <span class="number">1</span>, <span class="number">1000</span>);</span><br><span class="line">        <span class="keyword">if</span> (nfd &lt; <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;epoll_wait error, exit\n&quot;</span>);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; nfd; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">/*使用自定义结构体myevent_s类型指针, 接收 联合体data的void *ptr成员*/</span></span><br><span class="line">            <span class="class"><span class="keyword">struct</span> <span class="title">myevent_s</span> *<span class="title">ev</span> =</span> (struct myevent_s *)events[i].data.ptr;</span><br><span class="line"></span><br><span class="line">            <span class="comment">//! 说明了自定义结构体 myevent_s 里定义 events 是有必要的，因为</span></span><br><span class="line">            <span class="comment">//! events[i] = struct epoll_event ,在函数 epoll_wait() 调用</span></span><br><span class="line">            <span class="comment">//! 完成后是作为传出参数的，记录了可以使用类型为events[i].events，而</span></span><br><span class="line">            <span class="comment">//! 结构体中的 struct myevent_s *ev,ev-&gt;events 是 epoll_wait()函数</span></span><br><span class="line">            <span class="comment">//! 调用前我们所设置的事件类型，我们所希望检测的事件类型</span></span><br><span class="line">            <span class="keyword">if</span> ((events[i].events &amp; EPOLLIN) &amp;&amp; (ev-&gt;events &amp; EPOLLIN))</span><br><span class="line">            &#123; <span class="comment">//读就绪事件</span></span><br><span class="line">                ev-&gt;call_back(ev-&gt;fd, events[i].events, ev-&gt;arg);</span><br><span class="line">                <span class="comment">// lfd  EPOLLIN</span></span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> ((events[i].events &amp; EPOLLOUT) &amp;&amp; (ev-&gt;events &amp; EPOLLOUT))</span><br><span class="line">            &#123; <span class="comment">//写就绪事件</span></span><br><span class="line">                ev-&gt;call_back(ev-&gt;fd, events[i].events, ev-&gt;arg);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 退出前释放所有资源 */</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Linux编程</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">网络通信</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Cpp</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2022/03/18/%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E5%8D%95Reactor%E5%8D%95%E7%BA%BF%E7%A8%8B%E6%A8%A1%E5%9E%8B/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
   
   
-    </div></section>
+    <a href="/2022/02/28/%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">快速排序</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%8D%E5%BA%94%E5%A0%86-Reactor"><span class="toc-number">1.</span> <span class="toc-text">反应堆 Reactor</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%95Reactor%E5%8D%95%E7%BA%BF%E7%A8%8B"><span class="toc-number">1.1.</span> <span class="toc-text">单Reactor单线程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%95Reactor%E5%A4%9A%E7%BA%BF%E7%A8%8B"><span class="toc-number">1.2.</span> <span class="toc-text">单Reactor多线程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Proactor"><span class="toc-number">1.3.</span> <span class="toc-text">Proactor</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#epoll-%E5%AE%9E%E7%8E%B0%E5%8D%95Reactor%E5%8D%95%E7%BA%BF%E7%A8%8B%E5%8F%8D%E5%BA%94%E5%A0%86%E6%A8%A1%E5%BC%8F"><span class="toc-number">2.</span> <span class="toc-text">epoll 实现单Reactor单线程反应堆模式</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#epoll-%E7%9B%B8%E5%85%B3%E7%BB%93%E6%9E%84%E4%BD%93%E4%BB%A5%E5%8F%8A%E6%93%8D%E4%BD%9C%E5%87%BD%E6%95%B0"><span class="toc-number">2.1.</span> <span class="toc-text">epoll 相关结构体以及操作函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#epoll-%E5%8F%8D%E5%BA%94%E5%A0%86%E5%AE%9E%E7%8E%B0"><span class="toc-number">2.2.</span> <span class="toc-text">epoll 反应堆实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#epoll-%E5%8D%95Reactor%E5%8D%95%E7%BA%BF%E7%A8%8B%E6%BA%90%E7%A0%81%EF%BC%9A"><span class="toc-number">2.3.</span> <span class="toc-text">epoll 单Reactor单线程源码：</span></a></li></ol></li></ol>
+                    </div>
+                </span>
+            </div>
+        </div>
+        
+    </div>
+</aside>
+
+
+
+  
+  
   
 
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/2022/">&amp;laquo; Prev</a><a class="page-number" href="/archives/2022/">1</a><span class="page-number current">2</span>
-    </nav>
+  
+
+  
+
   
 
 
@@ -221,8 +458,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
