@@ -6,24 +6,15 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>计数排序、基数排序和桶排序 | XiDieccc</title>
+  <title>Archives: 2022/3 | XiDieccc</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="计数排序、基数排序和桶排序计数排序不同于基于比较和交换的排序，计数排序是基于统计词频的排序，计数排序的核心在于将输入的数据值转化为键存储在额外开辟的数组空间中，这就要求了待排元素必须是有确定范围的整数。   计数排序的过程如下:tv:   计数排序步骤：  确定数组元素的范围，即为 最大值和最小值 开辟对应范围长度的数组 countArr[]，遍历统计待排元素设为 num 对于每次出现的 num，">
-<meta property="og:type" content="article">
-<meta property="og:title" content="计数排序、基数排序和桶排序">
-<meta property="og:url" content="http://example.com/2022/02/12/%E6%A1%B6%E6%8E%92%E5%BA%8F/index.html">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="XiDieccc">
+<meta property="og:url" content="http://example.com/archives/2022/03/index.html">
 <meta property="og:site_name" content="XiDieccc">
-<meta property="og:description" content="计数排序、基数排序和桶排序计数排序不同于基于比较和交换的排序，计数排序是基于统计词频的排序，计数排序的核心在于将输入的数据值转化为键存储在额外开辟的数组空间中，这就要求了待排元素必须是有确定范围的整数。   计数排序的过程如下:tv:   计数排序步骤：  确定数组元素的范围，即为 最大值和最小值 开辟对应范围长度的数组 countArr[]，遍历统计待排元素设为 num 对于每次出现的 num，">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://www.runoob.com/wp-content/uploads/2019/03/countingSort.gif">
-<meta property="og:image" content="https://www.runoob.com/wp-content/uploads/2019/03/Bucket_sort_1.svg_.png">
-<meta property="og:image" content="https://www.runoob.com/wp-content/uploads/2019/03/radixSort.gif">
-<meta property="article:published_time" content="2022-02-12T04:23:52.000Z">
-<meta property="article:modified_time" content="2022-02-12T11:13:40.642Z">
 <meta property="article:author" content="XiDieccc">
-<meta property="article:tag" content="数据结构与算法">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://www.runoob.com/wp-content/uploads/2019/03/countingSort.gif">
   
     <link rel="alternative" href="/atom.xml" title="XiDieccc" type="application/atom+xml">
   
@@ -161,403 +152,68 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-桶排序" class="article article-type-post " itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
+            
   
-    <h1 class="article-title" itemprop="name">
-      计数排序、基数排序和桶排序
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2022" class="archive-year">2022</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	<a href="/2022/03/18/epoll%E5%8F%8D%E5%BA%94%E5%A0%86/" class="archive-article-date">
+  	<time datetime="2022-03-18T11:04:12.084Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-18</time>
+</a>
+        </div>
+    	 
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2022/03/18/epoll%E5%8F%8D%E5%BA%94%E5%A0%86/">实现一个单Reactor单线程模型</a>
     </h1>
   
 
-        
-        <a href="/2022/02/12/%E6%A1%B6%E6%8E%92%E5%BA%8F/" class="archive-article-date">
-  	<time datetime="2022-02-12T04:23:52.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-02-12</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="计数排序、基数排序和桶排序"><a href="#计数排序、基数排序和桶排序" class="headerlink" title="计数排序、基数排序和桶排序"></a>计数排序、基数排序和桶排序</h1><h2 id="计数排序"><a href="#计数排序" class="headerlink" title="计数排序"></a>计数排序</h2><p>不同于基于比较和交换的排序，计数排序是基于<strong>统计词频</strong>的排序，计数排序的核心在于<strong>将输入的数据值转化为键存储在额外开辟的数组空间中</strong>，这就要求了待排元素必须是有确定范围的整数。</p>
-<br>
-
-<p>计数排序的过程如下:tv:</p>
-<img src="https://www.runoob.com/wp-content/uploads/2019/03/countingSort.gif" alt="img" style="zoom:80%;" />
-
-<p>计数排序步骤：</p>
-<ul>
-<li>确定数组元素的范围，即为 最大值和最小值</li>
-<li>开辟对应范围长度的数组 <code>countArr[]</code>，遍历统计待排元素设为 <code>num</code></li>
-<li>对于每次出现的 <code>num</code>，将 <code>countArr[num]++</code></li>
-<li>此时<strong>按序按次</strong>输出 <code>countArr[]</code>，即排好序</li>
-</ul>
-<br>
-
-<h2 id="桶排序"><a href="#桶排序" class="headerlink" title="桶排序"></a>桶排序</h2><p>桶排序如其名，工作原理是 将待排元素分到有限数量的桶里（桶的划分是有序的），在每个桶内进行排序，最后按顺序输出得到有序序列。</p>
-<br>
-
-<p>示例如下:</p>
-<img src="https://www.runoob.com/wp-content/uploads/2019/03/Bucket_sort_1.svg_.png" alt="img" style="zoom: 150%;" />
-
-<p>步骤如下：</p>
-<ul>
-<li>设置一个定量的数组当作空桶</li>
-<li>遍历输入数据，并且把数据一个一个放到对应的桶里去</li>
-<li>对每个不是空的桶进行排序</li>
-<li>从不是空的桶里把排好序的数据拼接起来</li>
-</ul>
-<br>
-
-<h2 id="基数排序"><a href="#基数排序" class="headerlink" title="基数排序"></a>基数排序</h2><h3 id="概述与演示"><a href="#概述与演示" class="headerlink" title="概述与演示"></a>概述与演示</h3><p>基数排序是基于 <strong>关键字各位</strong> 的大小来进行排序的，有两种方法：</p>
-<ul>
-<li><strong><code>最高位优先 MSD</code></strong> ：按关键字权重 递减 依次 逐层 划分成若干更小的子序列，最后将所有子序列依次连接成一个有序序列</li>
-<li><strong><code>最低位优先 LSD</code></strong> ：按关键字权重 递增 依次进行排序</li>
-</ul>
-<p>基数排序演示:tv: <code>LSD</code></p>
-<img src="https://www.runoob.com/wp-content/uploads/2019/03/radixSort.gif" alt="img" style="zoom: 67%;" />
-
-<br>
-
-<h3 id="传统的算法步骤"><a href="#传统的算法步骤" class="headerlink" title="传统的算法步骤"></a>传统的算法步骤</h3><ul>
-<li><p>设待排元素 <strong>基数</strong> 为 <code>r</code> ，例如十进制数 1024 基数为 10，则分配 <code>r</code> 个桶子</p>
-</li>
-<li><p>以 <code>LSD</code> 为例，假设待排序列为：<code>73, 22, 93, 43, 55, 14, 28, 65, 39, 81</code></p>
-</li>
-<li><p>基数为10，桶号为 <code>0~9</code>，，从最低位优先，首先根据 <strong>个位</strong> 数值，分配到对应桶子中：</p>
-<table>
-<thead>
-<tr>
-<th>0</th>
-<th>1</th>
-<th>2</th>
-<th>3</th>
-<th>4</th>
-<th>5</th>
-<th>6</th>
-<th>7</th>
-<th>8</th>
-<th>9</th>
-</tr>
-</thead>
-<tbody><tr>
-<td></td>
-<td>81</td>
-<td>22</td>
-<td>73、93、43</td>
-<td>14</td>
-<td>55、65</td>
-<td></td>
-<td></td>
-<td>28</td>
-<td>39</td>
-</tr>
-</tbody></table>
-</li>
-<li><p>将桶子中数值重新组成序列： <code>81, 22, 73, 93, 43, 14, 55, 65, 28, 39</code></p>
-</li>
-<li><p>按 <strong>十位</strong> 数值，分配到对应桶子中：</p>
-<table>
-<thead>
-<tr>
-<th>0</th>
-<th>1</th>
-<th>2</th>
-<th>3</th>
-<th>4</th>
-<th>5</th>
-<th>6</th>
-<th>7</th>
-<th>8</th>
-<th>9</th>
-</tr>
-</thead>
-<tbody><tr>
-<td></td>
-<td>14</td>
-<td>22、28</td>
-<td>39</td>
-<td>43</td>
-<td>55</td>
-<td>65</td>
-<td>73</td>
-<td>81</td>
-<td>93</td>
-</tr>
-</tbody></table>
-</li>
-<li><p>将桶中数值重新组成序列：<code>14, 22, 28, 39, 43, 55, 65, 73, 81, 93</code>，序列已有序</p>
-</li>
-</ul>
-<br>
-
-<h3 id="传统步骤算法分析"><a href="#传统步骤算法分析" class="headerlink" title="传统步骤算法分析"></a>传统步骤算法分析</h3><ul>
-<li>空间复杂度：使用额外辅助存储空间为 <code>radix</code>，且可重复使用，空间复杂度 <code>O(N)</code></li>
-<li>时间复杂度：由步骤可知，排序共需进行 <strong><code>digist</code> （即最大数字的 位数）</strong> 趟分配到桶中 和 从桶中收集再组成，分配需要 <code>O(N)</code>，收集需要 <code>O(radix)</code>，所以总时间复杂度为：<code>O(digist * (N + radix))</code>，且时间复杂度稳定</li>
-<li>稳定性：:heavy_check_mark:  按位分配过程是有序进行的，收集过程同样有序，这决定了整体排序是稳定的</li>
-</ul>
-<br>
-
-<h3 id="优化的算法步骤"><a href="#优化的算法步骤" class="headerlink" title="优化的算法步骤"></a>优化的算法步骤</h3><br>
-
-<p>还是以 <code>LSD</code> , 待排序列为：:beginner: <strong><code>73, 22, 93, 43, 55, 14, 28, 65, 39, 81</code></strong>  :beginner: 为例：</p>
-<br>
-
-<ul>
-<li><p>假设待排序列最大值有 <code>digit</code> 位，例中 93 有 2 位，<strong>那么 <code>digist</code> 决定了 分配和收集（入桶和出桶）的 次数</strong></p>
-</li>
-<li><p>基数 <code>radix</code> 依然是 10，表示 十进制</p>
-</li>
-<li><p>先对待排元素进行 <strong>计数排序</strong>，令计数数组为 <code>count[]</code>，则在<strong>第一轮（个位）</strong>，<code>count[]</code>如下：</p>
-<table>
-<thead>
-<tr>
-<th>0</th>
-<th>1</th>
-<th>2</th>
-<th>3</th>
-<th>4</th>
-<th>5</th>
-<th>6</th>
-<th>7</th>
-<th>8</th>
-<th>9</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>0</td>
-<td>1</td>
-<td>1</td>
-<td>3</td>
-<td>1</td>
-<td>2</td>
-<td>0</td>
-<td>0</td>
-<td>1</td>
-<td>1</td>
-</tr>
-</tbody></table>
-<p><strong>表示含义：在当前位 <code>d</code> 位（此时为个位，<code>d = 1</code>）值是 <code>count[j]</code> 的元素有多少个</strong></p>
-<p>比如：个位是 3 的数字有 3 个 <code>73、93、43</code>；个位是 5 的数字有 2 个 <code>55、65</code></p>
-</li>
-<li><p>对 <code>count[]</code> 做如下累加 <code>count[j] += count[j - 1]</code> 变形：</p>
-<table>
-<thead>
-<tr>
-<th>0</th>
-<th>1</th>
-<th>2</th>
-<th>3</th>
-<th>4</th>
-<th>5</th>
-<th>6</th>
-<th>7</th>
-<th>8</th>
-<th>9</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>0</td>
-<td>1</td>
-<td>2</td>
-<td>5</td>
-<td>6</td>
-<td>8</td>
-<td>8</td>
-<td>8</td>
-<td>9</td>
-<td>10</td>
-</tr>
-</tbody></table>
-<p><strong>表示含义：在当前位 <code>d</code> 位（此时为个位，<code>d = 1</code>）值 <code>小于或等于 &lt;= </code>  <code>count[j]</code> 的元素有多少个</strong></p>
-<p>比如：个位值小于等于 3 的数字有 5个 <code>81、22、73、93、43</code></p>
-<p><strong><code>注意</code></strong>:collision: ：<strong>先把 计数排序统计词频得到 <code>count[]</code> 操作 当作是 分配操作</strong></p>
-</li>
-<li><p>构建与待排序列等规模的辅助数组 <code>bucket[]</code>， 此时 <strong>从右往左</strong> 遍历待排序列：</p>
-<ul>
-<li>倒数第一个数 81，个位为 1，<code>count[1]</code> 只有 1 个，按个位比较是最小的，若<strong>收集</strong>的话 ，应该排在最前面，即 <code>buctet[1 - 1] = 81</code>，然后再 <code>count[1] --</code>（因为相当于已经收集了一个元素）</li>
-<li>倒数第二个数 39，个位为 9，<code>count[9]</code> 有 10 个，说明 39 按个位比较排在第 10 位，若收集的话，应该是 <code>bucket[10 - 1] = 39</code>，然后再 <code>count[9] --</code></li>
-<li>倒数第三个数 65，个位为 5，<code>count[5]</code> 有 8 个，说明 65 按个位比较排在 第 8 位，若收集的话，应该是 <code>bucket[8 - 1] = 65</code>，然后再 <code>count[5] --</code></li>
-<li>………………</li>
-</ul>
-</li>
-<li><p>上步操作执行完，得到的 <code>bucket[]</code> 已经是按照个位排序是有序的：<code>81, 22, 73, 93, 43, 14, 55, 65, 28, 39</code></p>
-</li>
-<li><p>将 <code>bucket[]</code>元素覆盖到待排序列， 再对 十位 <code>d = 2</code> 进行上述操作，得到的 <code>bucket[]</code> 就是最终结果了</p>
-</li>
-</ul>
-<br>
-
-<h4 id="步骤分析"><a href="#步骤分析" class="headerlink" title="步骤分析"></a>步骤分析</h4><p>通过以上优化的步骤，我们可以得知，通过基数排序得到词频 <code>count[]</code>，和从右往左遍历保证了 <strong>先入桶的元素先出桶</strong>，即保证了分配和收集的有序性，<code>count[j]++</code> 可作为 入桶操作，<code>count[j]--</code> 可作为出桶操作</p>
-<h4 id="优化基数排序算法实现代码"><a href="#优化基数排序算法实现代码" class="headerlink" title="优化基数排序算法实现代码"></a>优化基数排序算法实现代码</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 求数组中最大元素的位数</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">maxBits</span><span class="params">(<span class="keyword">int</span> arr[],<span class="keyword">int</span> size)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">int</span> max = *<span class="built_in">max_element</span>(arr, arr + size);</span><br><span class="line">	<span class="keyword">int</span> bits = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">while</span> (max != <span class="number">0</span>) &#123;</span><br><span class="line">		bits++;</span><br><span class="line">		max /= <span class="number">10</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> bits;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 求数字num的某位d上的值，超出最大位数返回0</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">getDigist</span><span class="params">(<span class="keyword">int</span> num, <span class="keyword">int</span> d)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> (num / (<span class="keyword">int</span>)<span class="built_in">pow</span>(<span class="number">10</span>, d - <span class="number">1</span>)) % <span class="number">10</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 基数排序 !!!</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">radixSort</span><span class="params">(<span class="keyword">int</span> arr[], <span class="keyword">int</span> size)</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">int</span> *bucket = <span class="keyword">new</span> <span class="keyword">int</span>[size];	<span class="comment">// 辅助数组，暂存每轮排完序的序列</span></span><br><span class="line">	<span class="keyword">int</span> digist = <span class="built_in">maxBits</span>(arr, size);</span><br><span class="line">	<span class="keyword">int</span> i = <span class="number">0</span>, j = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> d = <span class="number">1</span>; d &lt;= digist; d++) &#123;	<span class="comment">//共有digist轮分配和收集</span></span><br><span class="line">		<span class="keyword">int</span> count[<span class="number">10</span>]&#123; <span class="number">0</span> &#125;;	<span class="comment">// count[10] 计数排序数组 0~9，必须保证每次入桶前 count[]计数是0</span></span><br><span class="line">		<span class="comment">// 分配操作1--计数排序</span></span><br><span class="line">		<span class="keyword">for</span> (i = <span class="number">0</span>; i&lt; size; i++) &#123;</span><br><span class="line">			j = <span class="built_in">getDigist</span>(arr[i], d);	<span class="comment">//令 j 为 arr[i] 的第 d 位的值,取值0~9</span></span><br><span class="line">			count[j]++;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">//分配操作2--累加前缀</span></span><br><span class="line">		<span class="keyword">for</span> (i = <span class="number">1</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">			count[i] += count[i - <span class="number">1</span>];</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">// 收集操作，出桶</span></span><br><span class="line">		<span class="keyword">for</span> (i = size - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line">			j = <span class="built_in">getDigist</span>(arr[i], d);</span><br><span class="line">			bucket[count[j] - <span class="number">1</span>] = arr[i];	<span class="comment">// 存储到bucket[]中</span></span><br><span class="line">			count[j]--;						<span class="comment">// 出桶</span></span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">//覆盖</span></span><br><span class="line">		<span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; size; i++) &#123;</span><br><span class="line">			arr[i] = bucket[i];</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">delete</span>[] bucket;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>所有非基于比较的排序，都要根据数据状况来排序，所以应用场景比较狭隘</p>
-
-      
-
-      
-        <div class="page-reward">
-          <a href="javascript:;" class="page-reward-btn tooltip-top">
-            <div class="tooltip tooltip-east">
-            <span class="tooltip-item">
-              赏
-            </span>
-            <span class="tooltip-content">
-              <span class="tooltip-text">
-                <span class="tooltip-inner">
-                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
-                  <div class="reward-box">
-                    
-                    
-                  </div>
-                </span>
-              </span>
-            </span>
-          </div>
-          </a>
-        </div>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
+        <div class="article-info info-on-right">
+          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">数据结构与算法</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Linux编程</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">网络通信</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Cpp</a>
         		</li>
       		
 		</ul>
 	</div>
 
-      
+          
 
-      
-
-      
-        
-<div class="share-btn share-icons tooltip-left">
-  <div class="tooltip tooltip-east">
-    <span class="tooltip-item">
-      <a href="javascript:;" class="share-sns share-outer">
-        <i class="icon icon-share"></i>
-      </a>
-    </span>
-    <span class="tooltip-content">
-      <div class="share-wrap">
-        <div class="share-icons">
-          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
-            <i class="icon icon-weibo"></i>
-          </a>
-          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
-            <i class="icon icon-weixin"></i>
-          </a>
-          <a class="qq share-sns" href="javascript:;" data-type="qq">
-            <i class="icon icon-qq"></i>
-          </a>
-          <a class="douban share-sns" href="javascript:;" data-type="douban">
-            <i class="icon icon-douban"></i>
-          </a>
-          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
-            <i class="icon icon-qzone"></i>
-          </a>
-          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
-            <i class="icon icon-facebook"></i>
-          </a>
-          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
-            <i class="icon icon-twitter"></i>
-          </a>
-          <a class="google share-sns" href="javascript:;" data-type="google">
-            <i class="icon icon-google"></i>
-          </a>
         </div>
-      </div>
-    </span>
-  </div>
-</div>
-
-<div class="page-modal wx-share js-wx-box">
-    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
-    <p>扫一扫，分享到微信</p>
-    <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2022/02/12/%E6%A1%B6%E6%8E%92%E5%BA%8F/" alt="微信分享二维码">
-    </div>
-</div>
-
-<div class="mask js-mask"></div>
-      
-      <div class="clearfix"></div>
-    </div>
+        <div class="clearfix"></div>
+    </header>
   </div>
 </article>
-
-  
-<nav id="article-nav">
-  
-    <a href="/2022/02/28/%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          快速排序
-        
-      </div>
-    </a>
   
   
-    <a href="/2022/02/11/%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">归并排序</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
-
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-        <div class="toc-container tooltip-left">
-            <i class="icon-font icon-category"></i>
-            <div class="tooltip tooltip-east">
-                <span class="tooltip-item">
-                </span>
-                <span class="tooltip-content">
-                    <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%AE%A1%E6%95%B0%E6%8E%92%E5%BA%8F%E3%80%81%E5%9F%BA%E6%95%B0%E6%8E%92%E5%BA%8F%E5%92%8C%E6%A1%B6%E6%8E%92%E5%BA%8F"><span class="toc-number">1.</span> <span class="toc-text">计数排序、基数排序和桶排序</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%A1%E6%95%B0%E6%8E%92%E5%BA%8F"><span class="toc-number">1.1.</span> <span class="toc-text">计数排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A1%B6%E6%8E%92%E5%BA%8F"><span class="toc-number">1.2.</span> <span class="toc-text">桶排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E6%95%B0%E6%8E%92%E5%BA%8F"><span class="toc-number">1.3.</span> <span class="toc-text">基数排序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0%E4%B8%8E%E6%BC%94%E7%A4%BA"><span class="toc-number">1.3.1.</span> <span class="toc-text">概述与演示</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%A0%E7%BB%9F%E7%9A%84%E7%AE%97%E6%B3%95%E6%AD%A5%E9%AA%A4"><span class="toc-number">1.3.2.</span> <span class="toc-text">传统的算法步骤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%A0%E7%BB%9F%E6%AD%A5%E9%AA%A4%E7%AE%97%E6%B3%95%E5%88%86%E6%9E%90"><span class="toc-number">1.3.3.</span> <span class="toc-text">传统步骤算法分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%98%E5%8C%96%E7%9A%84%E7%AE%97%E6%B3%95%E6%AD%A5%E9%AA%A4"><span class="toc-number">1.3.4.</span> <span class="toc-text">优化的算法步骤</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A4%E5%88%86%E6%9E%90"><span class="toc-number">1.3.4.1.</span> <span class="toc-text">步骤分析</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BC%98%E5%8C%96%E5%9F%BA%E6%95%B0%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0%E4%BB%A3%E7%A0%81"><span class="toc-number">1.3.4.2.</span> <span class="toc-text">优化基数排序算法实现代码</span></a></li></ol></li></ol></li></ol></li></ol>
-                    </div>
-                </span>
-            </div>
-        </div>
-        
-    </div>
-</aside>
-
-
-
-  
-  
+    </div></section>
   
 
-  
-
-  
-
-  
+    
 
 
           </div>
@@ -580,8 +236,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: true,
-		isArchive: false,
+		isPost: false,
+		isArchive: true,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
