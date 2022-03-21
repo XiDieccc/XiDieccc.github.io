@@ -154,6 +154,179 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-Hexo个人博客搭建和部署" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/01/12/Hexo%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E5%92%8C%E9%83%A8%E7%BD%B2/">Hexo个人博客搭建和部署</a>
+    </h1>
+  
+
+        
+        <a href="/2022/01/12/Hexo%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E5%92%8C%E9%83%A8%E7%BD%B2/" class="archive-article-date">
+  	<time datetime="2022-01-12T13:40:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-01-12</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Hexo个人博客搭建和部署"><a href="#Hexo个人博客搭建和部署" class="headerlink" title="Hexo个人博客搭建和部署"></a>Hexo个人博客搭建和部署</h1><h2 id="软件准备："><a href="#软件准备：" class="headerlink" title="软件准备："></a>软件准备：</h2><ul>
+<li><strong>github</strong></li>
+</ul>
+<p>​        博客将部署到github上</p>
+<ul>
+<li><strong>git</strong></li>
+</ul>
+<p>​        git配置，设置ssh等，详见：<code>E:\md\Tool Bug\Git配置.md</code></p>
+<ul>
+<li><strong>node.js(npm)</strong></li>
+</ul>
+<p>​        设置npm淘宝镜像，下载速度会快一点：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">查询当前配置的镜像.</span> </span><br><span class="line">npm get registry</span><br><span class="line"><span class="meta">#</span><span class="bash">设置成淘宝镜像.</span> </span><br><span class="line">npm config set registry http://registry.npm.taobao.org/</span><br><span class="line"><span class="meta">#</span><span class="bash">换成原来的.</span> </span><br><span class="line">npm config set registry https://registry.npmjs.org/</span><br></pre></td></tr></table></figure>
+
+<p>​    也可以下载<code>cnpm</code>：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g cnpm --registry http://registry.npm.taobao.org</span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li><strong>hexo</strong></li>
+</ul>
+<p>npm安装hexo:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g hexo-cli</span><br></pre></td></tr></table></figure>
+
+<p>查看版本验证是否成功：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo -v</span><br></pre></td></tr></table></figure>
+
+<p>若是出现了<code>无法加载文件 C:\Users\92353\AppData\Roaming\npm\hexo.ps1，因为在此系统上禁止运行脚本。有关详细信息，请参阅 https :/go.microsoft.com/fwlink/?LinkID=135170 中的 about_Execution_Policies。</code></p>
+<p>可<strong>以管理员身份</strong>打开powershell，执行以下命令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set-ExecutionPolicy RemoteSigned</span><br></pre></td></tr></table></figure>
+
+<p>可成功执行hexo</p>
+<h2 id="初始化博客："><a href="#初始化博客：" class="headerlink" title="初始化博客："></a>初始化博客：</h2><ul>
+<li>本地创建个人博客文件夹</li>
+<li>进入文件打开<code>git bash</code>或者<code>powershell</code> （Windows系统）</li>
+<li>输入以下指令：</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo init	#必须在空文件夹内运行，初始化hexo博客</span><br><span class="line">hexo s		#启动本地hexo服务，默认在本地http://localhost:4000/</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="部署到github："><a href="#部署到github：" class="headerlink" title="部署到github："></a>部署到github：</h2><ul>
+<li>在该文件夹下安装<strong>hexo部署插件</strong></li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save hexo-deployer-git</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>找到文件夹下<code> _config.yml</code> 文件</li>
+</ul>
+<p>​    在该配置文件中配置部署到远程github仓库</p>
+<p>​    最末端：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">	type: git</span><br><span class="line">	repo: git@github.com:xxxxxx.github.io.git 	#远端仓库的地址</span><br><span class="line">	branch: master					#默认分支branch</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意</strong>： github仓库名称一定是 <code>xxx.github.io</code></p>
+<ul>
+<li>更改完配置后，进行部署：</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo d</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>启动博客<code>hexo s</code>:</p>
+</li>
+<li><p>可直接通过仓库名称访问到博客（**后缀为 .github.io **）</p>
+</li>
+</ul>
+<h2 id="更换博客主题："><a href="#更换博客主题：" class="headerlink" title="更换博客主题："></a>更换博客主题：</h2><p>可以使用 <code>yilia</code> 主题</p>
+<ul>
+<li>下载该主题</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git clone git@github.com:litten/hexo-theme-yilia.git themes/yilia</span><br><span class="line"><span class="meta">#</span><span class="bash">下载慢可以使用gitee,作为工具人，帮我们拉取github上的仓库,然后再从gitee下载，注意下载完后清理缓存</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>依旧是更改配置文件<code>_config.yml</code></li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">theme: yilia		#原本是landscape</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>再次部署推送 <code>hexo d</code> 然后来查看个人博客，若样式没改变记得<strong>清理浏览器缓存</strong></li>
+</ul>
+<h2 id="配置博客："><a href="#配置博客：" class="headerlink" title="配置博客："></a>配置博客：</h2><ul>
+<li>首先解决 <code>模块找不到</code> 的错误，在博客根目录下输入：</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-generator-json-content --save</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>在 <code>_config.yml</code> 里添加以下配置：</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">jsonContent:</span><br><span class="line">    meta: false</span><br><span class="line">    pages: false</span><br><span class="line">    posts:</span><br><span class="line">      title: true</span><br><span class="line">      date: true</span><br><span class="line">      path: true</span><br><span class="line">      text: false</span><br><span class="line">      raw: false</span><br><span class="line">      content: false</span><br><span class="line">      slug: false</span><br><span class="line">      updated: false</span><br><span class="line">      comments: false</span><br><span class="line">      link: false</span><br><span class="line">      permalink: false</span><br><span class="line">      excerpt: false</span><br><span class="line">      categories: false</span><br><span class="line">      tags: true</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>然后执行一系列命令来刷新并重新推送：</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">hexo clean	#清除</span><br><span class="line">hexo g		#生成</span><br><span class="line">hexo s		#启动</span><br><span class="line">hexo d		#部署</span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li>配置图片资源：</li>
+<li>在路径 <code>themess/yilia/source/</code> 添加<code>assets</code> 文件夹，存放图片</li>
+<li>在<strong>yilia</strong>的配置文件中引用，注意之前都是hexo的配置</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">你的头像url</span></span><br><span class="line">avatar: /assets/rick.jfif</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p><strong>写在最会： 其他的东西慢慢设置，参考：</strong></p>
+<p><strong><a target="_blank" rel="noopener" href="http://dongshuyan.com/2019/05/24/hexo%E5%8D%9A%E5%AE%A2%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/">Hexo Yilia 高级配置 | Shuyan’s blog (dongshuyan.com)</a></strong></p>
+<p><strong><a target="_blank" rel="noopener" href="https://cloudy-liu.github.io/">https://cloudy-liu.github.io/</a></strong></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/01/12/Hexo%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E5%92%8C%E9%83%A8%E7%BD%B2/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-git基本操作、分支操作以及分支冲突" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1228,18 +1401,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux编程</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">网络通信</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Cpp</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">数据结构与算法</a>
               </li>
              
@@ -1249,6 +1410,22 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">配置集</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Cpp</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Linux编程</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">网络通信</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">libevent</a>
               </li>
              
               <li class="article-tag-list-item">
